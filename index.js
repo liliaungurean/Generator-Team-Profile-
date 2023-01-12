@@ -82,7 +82,7 @@ const addEmployee = () => {
             name: 'role',
             message: 'Choose your emloyees role.',
             choice: ['Engineer', 'Intern']
-        }
+        },
         {
             type: 'input',
             name: 'name', 
@@ -120,6 +120,55 @@ const addEmployee = () => {
                     return false; 
                 }
             }
+        }, 
+        {
+            type: 'input',
+            name: 'github',
+            message: 'Enter employees github username.',
+            when: (input) => input.role === "Engineer",
+            validate: nameInput => {
+                if (nameInput ) {
+                    return true;
+                } else {
+                    console.log ('mployees github username required!')
+                }
+            }
+        }, 
+        {
+            type: 'input',
+            name: 'school',
+            message: 'Enter the interns school',
+            when: (input) => input.role === "Intern",
+            validate: nameInput => {
+                if (nameInput) {
+                    return true;
+                } else {
+                    console.log ("Please enter the intern's school!")
+                }
+            }
+        }, 
+        {
+            type: 'confirm',
+            name: 'confirmAddEmployee',
+            message: 'Would you like to add more team members?',
+            default: false
         }
     ])
+    .then(employeeData =>{
+        const {nsme, id, email, role, github, school, confirmAddEmployee } = employeeData;
+       
+        if (role === 'Engineer'){
+        employee = new Engineer (name, id, email, github);
+       
+        console.log (employee);
+
+       } else if (role=== 'Intern') {
+        employee = new Intern (name, id, email, school);
+        
+        console.log(employee);
+
+       }
+
+    }
+        )
 }
