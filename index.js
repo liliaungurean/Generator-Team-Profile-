@@ -4,6 +4,7 @@ const Manager = require ('./Team/Manager');
 const Engineer = require('./Team/Engineer');
 const Intern = require('./Team/Intern');
 
+//node modules
 const fs = require('fs');
 const inquirer = require ('inquirer');
 
@@ -14,6 +15,7 @@ const addManager = () => {
     return inquirer.prompt ([
         {
             type: 'input',
+            name: 'name',
             message: 'Who is your team manager?',
             validate: nameInput => {
                 if (nameInput) {
@@ -26,6 +28,7 @@ const addManager = () => {
         }, 
         {
             type: 'input',
+            name: 'name',
             message: 'Managers ID nummber',
             validate: nameInput => {
                 if (inNaN(nameInput)){
@@ -64,8 +67,8 @@ const addManager = () => {
         }
     ])
 
-    .then(nanagerInput =>{
-        const {name, id, email, officeNumber}= managerInput;
+    .then(managerInput =>{
+        const {name, id, email, officeNumber} = managerInput;
         const manager =  new Manager (name, id, email, officeNumber);
 
         teamArray.push(manager);
@@ -73,6 +76,7 @@ const addManager = () => {
     })
 }
 
+//add another employee
 const addEmployee = () => {
     console.log ('Adding Employee to the team');
     
@@ -81,7 +85,10 @@ const addEmployee = () => {
             type:'list',
             name: 'role',
             message: 'Choose your emloyees role.',
-            choice: ['Engineer', 'Intern']
+            choices: [
+                'Engineer', 
+                'Intern'
+            ]
         },
         {
             type: 'input',
@@ -155,6 +162,9 @@ const addEmployee = () => {
         }
     ])
     .then(employeeData => {
+
+        //data for employee types
+
         const {name, id, email, role, github, school, confirmAddEmployee } = employeeData;
        
         if (role === 'Engineer') {
@@ -175,13 +185,29 @@ const addEmployee = () => {
        } else {
              return teamArray
        }
+
+    //function to generat HTML page
+    const writeFile = data => {
+        fs.writeFile('./Output/index.html', data, err => {
+        if (err) {
+            console.log(err);
+            return;
+        } else {
+            console.log ('Your teams profile has been generated');
+        }
+        })
+    }
     })
-}
+};
+
 addManager()
-    .then(addEmployee)
-    .then(teamArray=>{
-        return geneateHTML(teamArray);
-    })
-    .catch (err => {
-        console.log(err);
-    });
+  .then(addEmployee)
+  .then(teamArray => {
+    return generateHTML(teamArray);
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .catch(err => {
+ console.log(err);
+  });

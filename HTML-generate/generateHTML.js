@@ -59,7 +59,7 @@ const generateIntern = function (intern){
 };
 
 //push array to page
-generatHTML = (data) => {
+generateHTML = (data) => {
 
     pageArray = [];
 
@@ -125,6 +125,6 @@ const generateTeamPage = function (employeeCards) {
     `;
 }
 
-module.exposrts = generatHTML;
+module.exposrts = generateHTML;
 
 
