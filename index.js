@@ -1,4 +1,4 @@
-const generateHTML = require('./Output/geneateHTML');
+const generateHTML = require('./HTML-generate/generateHTML');
 
 const Manager = require ('./Team/Manager');
 const Engineer = require('./Team/Engineer');
@@ -154,15 +154,15 @@ const addEmployee = () => {
             default: false
         }
     ])
-    .then(employeeData =>{
-        const {nsme, id, email, role, github, school, confirmAddEmployee } = employeeData;
+    .then(employeeData => {
+        const {name, id, email, role, github, school, confirmAddEmployee } = employeeData;
        
-        if (role === 'Engineer'){
+        if (role === 'Engineer') {
         employee = new Engineer (name, id, email, github);
        
         console.log (employee);
 
-       } else if (role=== 'Intern') {
+       } else if (role === 'Intern') {
         employee = new Intern (name, id, email, school);
         
         console.log(employee);
