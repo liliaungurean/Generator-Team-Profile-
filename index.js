@@ -169,6 +169,19 @@ const addEmployee = () => {
 
        }
 
-    }
-        )
+       teamArray.push(employee);
+       if (confirmAddEmployee) {
+            return addEmployee(teamArray);
+       } else {
+             return teamArray
+       }
+    })
 }
+addManager()
+    .then(addEmployee)
+    .then(teamArray=>{
+        return geneateHTML(teamArray);
+    })
+    .catch (err => {
+        console.log(err);
+    });
